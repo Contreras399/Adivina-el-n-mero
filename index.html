@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina el Número</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 150px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adivina el Número</h1>
+        <p>Ingresa un número del 1 al 10:</p>
+        <input type="number" id="inputNumero" min="1" max="10">
+        <button onclick="adivinarNumero()">Adivinar</button>
+        <div id="mensaje" class="message">¡Buena suerte!</div>
+    </div>
+    <script>
+        let numeroSecreto;
+        let intentos;
+
+        // Inicializar el juego
+        function iniciarJuego() {
+            numeroSecreto = Math.floor(Math.random() * 10) + 1; // Número aleatorio entre 1 y 10
+            intentos = 0;
+            document.getElementById('mensaje').textContent = "Adivina un número del 1 al 10:";
+            document.getElementById('inputNumero').value = "";
+        }
+
+        // Lógica del botón "Adivinar"
+        function adivinarNumero() {
+            const input = document.getElementById('inputNumero');
+            const mensaje = document.getElementById('mensaje');
+            const numeroJugador = parseInt(input.value);
+
+            if (isNaN(numeroJugador) || numeroJugador < 1 || numeroJugador > 10) {
+                mensaje.textContent = "Por favor, ingresa un número válido.";
+                return;
+            }
+
+            intentos++;
+            if (numeroJugador < numeroSecreto) {
+                mensaje.textContent = "El número es mayor. Intenta de nuevo:";
+            } else if (numeroJugador > numeroSecreto) {
+                mensaje.textContent = "El número es menor. Intenta de nuevo:";
+            } else {
+                mensaje.textContent = `¡CORRECTO! Lo adivinaste en ${intentos} intentos.`;
+                setTimeout(iniciarJuego, 3000); // Reiniciar el juego después de 3 segundos
+            }
+
+            input.value = "";
+            input.focus();
+        }
+
+        // Iniciar el juego al cargar la página
+        iniciarJuego();
+    </script>
+</body>
+</html>
